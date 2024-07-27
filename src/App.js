@@ -14,7 +14,7 @@ import NotFound from "./components/NotFound";
 
 function App() {
   const [user, setUser] = useState(null);
-  const base_url = "http://54.167.78.184";
+  const base_url = process.env.REACT_APP_PUBLIC_URL;
   const token = localStorage.getItem("authToken");
 
   const fetchData = async () => {
