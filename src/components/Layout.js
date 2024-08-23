@@ -1,11 +1,20 @@
+import { Box } from "@mui/material";
 import Sidebar from "./Sidebar";
 
 const Layout = ({ children }) => {
   return (
-    <div>
+    <Box sx={{ display: "flex" }}>
       <Sidebar />
-      <main>{children}</main>
-    </div>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          padding: 3,
+        }}
+      >
+        {children}
+      </Box>
+    </Box>
   );
 };
 

@@ -2,6 +2,17 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/context";
 import { logout, userListing } from "../api/api";
+import {
+  Box,
+  Button,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 
 function UserListing() {
   const [users, setUsers] = useState([]);
@@ -12,8 +23,8 @@ function UserListing() {
 
   const fetchData = async (page) => {
     const response = await userListing(page);
-      setUsers(response.data.users.data);
-      setTotalPages(response.data.users.last_page);
+    setUsers(response.data.users.data);
+    setTotalPages(response.data.users.last_page);
   };
 
   useEffect(() => {
@@ -39,66 +50,75 @@ function UserListing() {
 
   return (
     <>
-      <div className="overflow-x-auto text-center">
-        <button onClick={handleLogout} className="bg-red-500 text-white p-2">
-          Logout
-        </button>
-        <Link
-          to={"/users/create"}
-          className="bg-blue-500 text-white flex justify-end"
+      <Box textAlign="center" overflow="auto">
+        <Button
+          component={Link}
+          to="/users/create"
+          variant="contained"
+          sx={(theme) => ({
+            margin: 1,
+            float: "left",
+            color: theme.palette.primary,
+          })}
         >
           Create User
-        </Link>
-        <table className="min-w-full bg-white">
-          <thead>
-            <tr>
-              <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">
-                ID
-              </th>
-              <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">
-                Name
-              </th>
-              <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">
-                Email
-              </th>
-              <th className="py-2 px-4 border-b border-gray-200 bg-gray-50">
-                Edit
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user) => (
-              <tr key={user.id}>
-                <td className="py-2 px-4 border-b border-gray-200">
-                  {user.id}
-                </td>
-                <td className="py-2 px-4 border-b border-gray-200">
-                  {user.name}
-                </td>
-                <td className="py-2 px-4 border-b border-gray-200">
-                  {user.email}
-                </td>
-                <td className="py-2 px-4 border-b border-gray-200">
-                  <Link to={`/users/edit/${user.uuid}`}>Edit</Link>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div className="flex justify-center mt-4">
+        </Button>
+        <Button
+          onClick={handleLogout}
+          variant="contained"
+          sx={{ margin: 1, float: "right" }}
+        >
+          Logout
+        </Button>
+        <TableContainer component={Paper} sx={{ marginTop: 3 }}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>ID</TableCell>
+                <TableCell>Name</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Edit</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {users.map((user) => (
+                <TableRow key={user.id}>
+                  <TableCell>{user.id}</TableCell>
+                  <TableCell>{user.name}</TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>
+                    <Button
+                      component={Link}
+                      to={`/users/edit/${user.uuid}`}
+                      variant="outlined"
+                    >
+                      Edit
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
+      <Box display="flex" justifyContent="center" mt={4}>
         {Array.from({ length: totalPages }, (_, index) => (
-          <button
+          <Button
             key={index}
-            className={`mx-1 px-3 py-1 border rounded ${
-              currentPage === index + 1 ? "bg-blue-500 text-white" : "bg-white"
-            }`}
+            variant={currentPage === index + 1 ? "contained" : "outlined"}
             onClick={() => handlePageChange(index + 1)}
+            sx={(theme) => ({
+              marginX: 0.5,
+              color:
+                currentPage === index + 1
+                  ? theme.palette.primary
+                  : theme.palette.secondary,
+            })}
           >
             {index + 1}
-          </button>
+          </Button>
         ))}
-      </div>
+      </Box>
     </>
   );
 }

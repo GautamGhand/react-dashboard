@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Audio } from "react-loader-spinner";
 import { AuthContext } from "../context/context";
 import { login } from "../api/api";
+import { Box, Button, TextField, Typography } from "@mui/material";
 
 function Login() {
   const {
@@ -54,17 +55,35 @@ function Login() {
   };
 
   return (
-    <div className="p-2 flex items-center justify-center w-full h-[100vh]">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex gap-4 w-[500px] border border-gray-300 flex-col rounded-md p-6 shadow-md"
+    <Box
+      sx={{
+        height: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        p: 2,
+      }}
+    >
+      <Box
+        sx={{
+          maxWidth: 500,
+          margin: "auto",
+          padding: 4,
+          boxShadow: 3,
+          borderRadius: 2,
+        }}
       >
-        <div>
-          <label className="text-black mb-2 block text-base capitalize">
-            Email
-          </label>
-          <input
-            className="w-full py-2 px-4 border rounded border-gray-300"
+        <Typography variant="h5" align="center" gutterBottom>
+            Login
+        </Typography>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <TextField
+            label="Email"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            error={!!errors.email}
+            helperText={errors.email ? errors.email.message : ""}
             {...register("email", {
               required: "Email is required",
               pattern: {
@@ -72,62 +91,51 @@ function Login() {
                 message: "Invalid email address",
               },
             })}
-            placeholder="Email"
           />
-          {errors.email && (
-            <span className="text-red-500">{errors.email.message}</span>
-          )}
-        </div>
-        <div>
-          <label className="text-black mb-2 block text-base capitalize">
-            Password
-          </label>
-          <input
+          <TextField
+            label="Password"
             type="password"
-            className="w-full py-2 px-4 border rounded border-gray-300"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            error={!!errors.password}
+            helperText={errors.password ? errors.password.message : ""}
             {...register("password", {
               required: "Password is required",
             })}
-            placeholder="Password"
           />
-          {errors.password && (
-            <span className="text-red-500">{errors.password.message}</span>
-          )}
-        </div>
-        <div>
-          <button
+          <Button
             type="submit"
-            className="py-2 px-4 bg-blue-800 text-white rounded"
+            variant="contained"
+            color="primary"
+            fullWidth
+            sx={{ mt: 2 }}
             disabled={loader}
           >
             {loader ? "Logging In..." : "Login"}
-          </button>
-        </div>
+          </Button>
+        </form>
         {invalidUser && (
-          <span className="text-red-500">Invalid Credentials</span>
+          <Typography
+            variant="span"
+            align="center"
+            gutterBottom
+            sx={{ color: "red" }}
+          >
+            Invalid Credentials
+          </Typography>
         )}
-      </form>
-      {/* <div>
-        <GoogleOAuthProvider clientId="636709310-656o92no25p5dbpp632hcortmttnv9qc.apps.googleusercontent.com">
-          <GoogleLogin
-            onSuccess={handleLoginSuccess}
-            onFailure={handleLoginFailure}
-            state_cookie_domain={true}
+        {loader && (
+          <Audio
+            height="80"
+            width="80"
+            radius="9"
+            color="green"
+            ariaLabel="loading"
           />
-        </GoogleOAuthProvider>
-      </div> */}
-      {loader && (
-        <Audio
-          height="80"
-          width="80"
-          radius="9"
-          color="green"
-          ariaLabel="loading"
-          wrapperStyle
-          wrapperClass
-        />
-      )}
-    </div>
+        )}
+      </Box>
+    </Box>
   );
 }
 

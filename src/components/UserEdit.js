@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { Audio } from "react-loader-spinner";
 import { AuthContext } from "../context/context";
+import { Box, Button, TextField, Typography } from "@mui/material";
 
 function UserEdit() {
   const {
@@ -58,7 +59,7 @@ function UserEdit() {
         }
       );
       if (response.data.success === true) {
-        navigate("/dashboard");
+        navigate("/users");
       }
     } catch (error) {
       if (error.response && error.response.data) {
@@ -78,65 +79,67 @@ function UserEdit() {
   };
 
   return (
-    <div className="p-2 flex items-center justify-center w-full h-[100vh]">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex gap-4 w-[500px] border border-gray-300 flex-col rounded-md p-6 shadow-md"
-      >
-        <div>
-          <label className="text-black mb-2 block text-base capitalize">
-            Name
-          </label>
-          <input
-            className="w-full py-2 px-4 border rounded border-gray-300"
-            {...register("name", { required: "Name is required" })}
-            placeholder="Name"
+    <>
+      <Box>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex gap-4 w-[500px] border border-gray-300 flex-col rounded-md p-6 shadow-md"
+        >
+          <Box>
+            <Typography variant="h5" align="center" gutterBottom>
+              Edit User
+            </Typography>
+            <TextField
+              fullWidth
+              variant="outlined"
+              InputLabelProps={{ shrink: true }}
+              {...register("name", { required: "Name is required" })}
+              label="Name"
+              error={!!errors.name}
+              helperText={errors.name ? errors.name.message : ""}
+            />
+          </Box>
+          <Box>
+            <TextField
+              fullWidth
+              variant="outlined"
+              InputLabelProps={{ shrink: true }}
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+                  message: "Invalid email address",
+                },
+              })}
+              label="Email"
+              error={!!errors.email}
+              helperText={errors.email ? errors.email.message : ""}
+            />
+          </Box>
+          <Box>
+            <Button
+              type="submit"
+              disabled={loader}
+              variant="contained"
+              color="primary"
+            >
+              {loader ? "Submitting..." : "Submit"}
+            </Button>
+          </Box>
+        </form>
+        {loader && (
+          <Audio
+            height="80"
+            width="80"
+            radius="9"
+            color="green"
+            ariaLabel="loading"
+            wrapperStyle
+            wrapperClass
           />
-          {errors.name && (
-            <span className="text-red-500">{errors.name.message}</span>
-          )}
-        </div>
-        <div>
-          <label className="text-black mb-2 block text-base capitalize">
-            Email
-          </label>
-          <input
-            className="w-full py-2 px-4 border rounded border-gray-300"
-            {...register("email", {
-              required: "Email is required",
-              pattern: {
-                value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-                message: "Invalid email address",
-              },
-            })}
-            placeholder="Email"
-          />
-          {errors.email && (
-            <span className="text-red-500">{errors.email.message}</span>
-          )}
-        </div>
-        <div>
-          <button
-            type="submit"
-            className="py-2 px-4 bg-blue-800 text-white rounded"
-            disabled={loader}
-          >
-            {loader ? "Submitting..." : "Submit"}
-          </button>
-        </div>
-      </form>
-      {loader && (
-        <Audio
-          height="80"
-          width="80"
-          radius="9"
-          color="green"
-          ariaLabel="loading"
-          wrapperStyle
-          wrapperClass
-        />
-      )}
-    </div>
+        )}
+      </Box>
+    </>
   );
 }
 
