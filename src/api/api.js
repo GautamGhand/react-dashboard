@@ -1,15 +1,21 @@
+import { decodeToken } from "react-jwt";
 import api from "./validateToken";
 
 const base_url = process.env.REACT_APP_PUBLIC_URL;
-const token = localStorage.getItem("authToken");
+const token = localStorage.getItem("authToken") ? localStorage.getItem('authToken').toString() : '';
 
 export async function userListing(page) {
-  const response = await api.get(`${base_url}/api/users?page=${page}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return response;
+  if(decodeToken(token) == null){
+    localStorage.removeItem('authToken');
+    window.location.href="/";
+  }else{
+    const response = await api.get(`${base_url}/api/users?page=${page}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  }
 }
 
 export async function login(formData) {
