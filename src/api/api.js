@@ -5,15 +5,11 @@ const base_url = process.env.REACT_APP_PUBLIC_URL;
 const token = localStorage.getItem("authToken");
 
 export async function userListing(page) {
-  if(typeof token != 'string'){
-    token.toString();
-  }
   const decodedToken = decodeToken(token);
 
   if (!decodedToken) {
     localStorage.removeItem("authToken");
     window.location.href = "/";
-    return;
   }
 
   try {
@@ -25,7 +21,6 @@ export async function userListing(page) {
     return response;
   } catch (error) {
     console.error("Error fetching user listing:", error);
-    throw error; // Re-throwing the error so the caller can handle it
   }
 }
 
@@ -35,7 +30,6 @@ export async function login(formData) {
     return response;
   } catch (error) {
     console.error("Error during login:", error);
-    throw error;
   }
 }
 
@@ -54,7 +48,6 @@ export async function logout() {
     return response;
   } catch (error) {
     console.error("Error during logout:", error);
-    throw error;
   }
 }
 
@@ -69,6 +62,5 @@ export async function userCreate(formData) {
     return response;
   } catch (error) {
     console.error("Error creating user:", error);
-    throw error;
   }
 }
