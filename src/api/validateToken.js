@@ -4,7 +4,6 @@ const api = axios.create({
   baseURL: process.env.REACT_APP_PUBLIC_URL,
 });
 
-// Request interceptor
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("authToken");
