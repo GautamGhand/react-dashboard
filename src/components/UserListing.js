@@ -1,7 +1,6 @@
-import { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/context";
-import { logout, userListing } from "../api/api";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { userListing } from "../api/api";
 import {
   Box,
   Button,
@@ -18,8 +17,6 @@ function UserListing() {
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const { setUser } = useContext(AuthContext);
-  const navigate = useNavigate();
 
   const fetchData = async (page) => {
     const response = await userListing(page);
@@ -33,19 +30,6 @@ function UserListing() {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
-  };
-
-  const handleLogout = async () => {
-    const response = await logout();
-    if (response.status === 200) {
-      if (response.data.success === true) {
-        setUser(null);
-        localStorage.removeItem("authToken");
-        navigate("/");
-      }
-    } else {
-      navigate("/login");
-    }
   };
 
   return (
@@ -62,13 +46,6 @@ function UserListing() {
           })}
         >
           Create User
-        </Button>
-        <Button
-          onClick={handleLogout}
-          variant="contained"
-          sx={{ margin: 1, float: "right" }}
-        >
-          Logout
         </Button>
         <TableContainer component={Paper} sx={{ marginTop: 3 }}>
           <Table>

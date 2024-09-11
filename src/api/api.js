@@ -1,17 +1,8 @@
-import { decodeToken } from "react-jwt";
 import api from "./validateToken";
 
 const base_url = process.env.REACT_APP_PUBLIC_URL;
 
 export async function userListing(page) {
-  const token = localStorage.getItem("authToken");
-  const decodedToken = decodeToken(token);
-
-  if (decodedToken == null) {
-    localStorage.removeItem("authToken");
-    window.location.href = "/";
-  }
-
   try {
     const response = await api.get(`${base_url}/api/users?page=${page}`);
     return response;
