@@ -19,8 +19,6 @@ import { AuthContext } from "../context/context";
 const Layout = ({ children }) => {
   const drawerWidth = 220;
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
-  console.log(isDrawerOpen);
-  console.log(`calc(100% - ${isDrawerOpen ? drawerWidth : 100}px)`);
   const navigate = useNavigate();
   const { token } = useContext(AuthContext);
 
