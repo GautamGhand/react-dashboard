@@ -1,15 +1,21 @@
-import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import "./App.css";
-import Home from "./components/Home";
-import UserCreate from "./components/UserCreate";
-import Login from "./components/Login";
 import { AuthContext } from "./context/context";
-import { useState } from "react";
+import { lazy, useState, Suspense } from "react";
 import PrivateRoute from "./components/PrivateRoute";
-import UserEdit from "./components/UserEdit";
-import UserListing from "./components/UserListing";
 import ConditionalLayout from "./components/ConditionalLayout";
 import NotFound from "./components/NotFound";
+
+const Login = lazy(() => import("./components/Login"));
+const Home = lazy(() => import("./components/Home"));
+const UserListing = lazy(() => import("./components/UserListing"));
+const UserCreate = lazy(() => import("./components/UserCreate"));
+const UserEdit = lazy(() => import("./components/UserEdit"));
 
 function App() {
   const [user, setUser] = useState(null);
@@ -20,27 +26,45 @@ function App() {
     <AuthContext.Provider value={{ user, setUser, base_url, token }}>
       <Router>
         <ConditionalLayout>
-          <Routes>
-            <Route path="/" element={<Login />} />
-            <Route
-              path="/dashboard"
-              element={<PrivateRoute element={<Home />} />}
-            />
-            <Route
-              path="/users"
-              element={<PrivateRoute element={<UserListing />} />}
-            />
-            <Route
-              path="/users/create"
-              element={<PrivateRoute element={<UserCreate />} />}
-            />
-            <Route
-              path="/users/edit/:uuid"
-              element={<PrivateRoute element={<UserEdit />} />}
-            />
-            <Route path="/404" element={<NotFound />} />
-            <Route path="*" element={<Navigate to="/404" />} />
-          </Routes>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Routes>
+              <Route path="/" element={<Login />} />
+              <Route
+                path="/dashboard"
+                element={
+                  <PrivateRoute>
+                    <Home />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/users"
+                element={
+                  <PrivateRoute>
+                    <UserListing />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/users/create"
+                element={
+                  <PrivateRoute>
+                    <UserCreate />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/users/edit/:uuid"
+                element={
+                  <PrivateRoute>
+                    <UserEdit />
+                  </PrivateRoute>
+                }
+              />
+              <Route path="/404" element={<NotFound />} />
+              <Route path="*" element={<Navigate to="/404" />} />
+            </Routes>
+          </Suspense>
         </ConditionalLayout>
       </Router>
     </AuthContext.Provider>

@@ -1,9 +1,9 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 
-const PrivateRoute = ({ element }) => {
+const PrivateRoute = ({ children }) => {
   const token = localStorage.getItem('authToken');
-  return token ? element : <Navigate to="/"/>;
+  return token ? children : <Navigate to="/"/>;
 };
 
 export default PrivateRoute;

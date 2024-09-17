@@ -1,13 +1,12 @@
 // Home.js
 import { useContext, useEffect } from "react";
 import { AuthContext } from "../context/context";
-import Layout from "./Layout";
 import axios from "axios";
 import { decodeToken } from "react-jwt";
 import { useNavigate } from "react-router-dom";
 
 function Home() {
-  const { setUser, token, base_url } = useContext(AuthContext);
+  const { setUser, token, base_url,user } = useContext(AuthContext);
   const navigate = useNavigate();
   const fetchData = async () => {
     if(decodeToken(token) == null){
@@ -32,7 +31,13 @@ function Home() {
     fetchData();
   }, []);
 
-  return <Layout />;
+  return (
+    <>
+      <div>
+        Welcome {user.name}
+      </div>
+    </>
+  );
 }
 
 export default Home;
