@@ -33,6 +33,7 @@ function UserCreate() {
       email: data.email,
       password: data.password,
       password_confirmation: data.confirm_password,
+      profile_image:data.profile_image
     };
 
     setLoader(true);
