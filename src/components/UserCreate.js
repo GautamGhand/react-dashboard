@@ -16,6 +16,16 @@ function UserCreate() {
 
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
+  const [preview, setPreview] = useState(null);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreview(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
 
   const onSubmit = async (data) => {
     const formData = {
@@ -85,6 +95,29 @@ function UserCreate() {
               label="Email"
               error={!!errors.email}
               helperText={errors.email ? errors.email.message : ""}
+            />
+          </Box>
+          <Box>
+            {preview && (
+              <div>
+                <h4>Image Preview:</h4>
+                <img
+                  src={preview}
+                  alt="Preview"
+                  style={{ width: "200px", height: "auto" }}
+                />
+              </div>
+            )}
+            <TextField
+              InputLabelProps={{ shrink: true }}
+              type="file"
+              variant="outlined"
+              fullWidth
+              {...register("profile_image", { required: "Image is required" })}
+              label="Image"
+              error={!!errors.profile_image}
+              helperText={errors.profile_image ? errors.profile_image.message : ""}
+              onChange={handleFileChange}
             />
           </Box>
           <Box>

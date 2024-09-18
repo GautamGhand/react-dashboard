@@ -54,6 +54,7 @@ function UserListing() {
                 <TableCell>ID</TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Email</TableCell>
+                <TableCell>Image</TableCell>
                 <TableCell>Edit</TableCell>
               </TableRow>
             </TableHead>
@@ -63,6 +64,17 @@ function UserListing() {
                   <TableCell>{user.id}</TableCell>
                   <TableCell>{user.name}</TableCell>
                   <TableCell>{user.email}</TableCell>
+                  <TableCell>
+                    {user.profile_image ? (
+                      <img
+                        src={user.profile_image}
+                        alt={`${user.name}'s profile`}
+                        style={{ width: 50, height: 50, borderRadius: "50%" }}
+                      />
+                    ) : (
+                      "No Image"
+                    )}
+                  </TableCell>
                   <TableCell>
                     <Button
                       component={Link}

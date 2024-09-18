@@ -23,7 +23,7 @@ const Layout = ({ children }) => {
   const { token } = useContext(AuthContext);
 
   useEffect(() => {
-    if (token && decodeToken(token) === null) {
+    if (!token && decodeToken(token) === null) {
       localStorage.removeItem("authToken");
       navigate("/");
     }

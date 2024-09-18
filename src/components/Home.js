@@ -6,12 +6,12 @@ import { decodeToken } from "react-jwt";
 import { useNavigate } from "react-router-dom";
 
 function Home() {
-  const { setUser, token, base_url,user } = useContext(AuthContext);
+  const { setUser, token, base_url, user } = useContext(AuthContext);
   const navigate = useNavigate();
   const fetchData = async () => {
-    if(decodeToken(token) == null){
-      localStorage.removeItem('authToken');
-      navigate('/');
+    if (decodeToken(token) == null) {
+      localStorage.removeItem("authToken");
+      navigate("/");
     }
     if (!token) return;
 
@@ -33,9 +33,7 @@ function Home() {
 
   return (
     <>
-      <div>
-        Welcome {user.name}
-      </div>
+      <div>{user ? <div>Welcome {user.name}</div> : <div>Loading...</div>}</div>
     </>
   );
 }

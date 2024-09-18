@@ -17,13 +17,12 @@ api.interceptors.request.use(
   }
 );
 
-// Response interceptor
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      localStorage.removeItem("authToken");
-      window.location.href = "/";
+      // localStorage.removeItem("authToken");
+      // window.location.href = "/";
     }
     return Promise.reject(error);
   }
