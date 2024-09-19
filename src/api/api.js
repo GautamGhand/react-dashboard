@@ -30,10 +30,6 @@ export async function logout() {
 }
 
 export async function userCreate(formData) {
-  try {
-    const response = await api.post(`${base_url}/api/users/create`, formData);
-    return response;
-  } catch (error) {
-    console.error("Error creating user:", error);
-  }
+  const response = await api.post(`${base_url}/api/users/create`, formData);
+  return response;
 }
