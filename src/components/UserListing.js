@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { userListing } from "../api/api";
 import {
@@ -12,11 +12,13 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import { AuthContext } from "../context/context";
 
 function UserListing() {
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const { base_url } = useContext(AuthContext);
 
   const fetchData = async (page) => {
     const response = await userListing(page);
@@ -67,7 +69,7 @@ function UserListing() {
                   <TableCell>
                     {user.profile_image ? (
                       <img
-                        src={user.profile_image}
+                      src={`${base_url}/${user.profile_image}`}
                         alt={`${user.name}'s profile`}
                         style={{ width: 50, height: 50, borderRadius: "50%" }}
                       />
