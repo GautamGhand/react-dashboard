@@ -1,4 +1,3 @@
-// Home.js
 import { useContext, useEffect } from "react";
 import { AuthContext } from "../context/context";
 import axios from "axios";
@@ -9,7 +8,7 @@ function Home() {
   const { setUser, token, base_url, user } = useContext(AuthContext);
   const navigate = useNavigate();
   const fetchData = async () => {
-    if (decodeToken(token) == null) {
+    if (decodeToken(token) === null) {
       localStorage.removeItem("authToken");
       navigate("/");
     }

@@ -29,6 +29,14 @@ export default function Sidebar() {
           <ListItemText primary="Users" />
         </ListItemButton>
       </ListItem>
+      <ListItem disablePadding>
+        <ListItemButton component={Link} to="/products">
+          <ListItemIcon>
+            <GroupIcon />
+          </ListItemIcon>
+          <ListItemText primary="Products" />
+        </ListItemButton>
+      </ListItem>
     </List>
   );
 }

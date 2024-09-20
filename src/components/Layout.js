@@ -11,19 +11,18 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import Sidebar from "./Sidebar";
 import { logout } from "../api/api";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { decodeToken } from "react-jwt";
 import { AuthContext } from "../context/context";
 
-
-const Layout = ({ children }) => {
+function Layout() {
   const drawerWidth = 220;
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
   const navigate = useNavigate();
   const { token } = useContext(AuthContext);
 
   useEffect(() => {
-    if (!token && decodeToken(token) === null) {
+    if (decodeToken(token) === null) {
       localStorage.removeItem("authToken");
       navigate("/");
     }
@@ -98,10 +97,10 @@ const Layout = ({ children }) => {
         }}
       >
         <Toolbar />
-        {children}
+        <Outlet />
       </Box>
     </Box>
   );
-};
+}
 
 export default Layout;
