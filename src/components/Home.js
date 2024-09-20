@@ -17,7 +17,6 @@ function Home() {
 
     const getProfile = async () => {
       const response = await userProfile();
-      console.log(response);
       if (response.data.success) {
         setUser(response.data.user);
       }
