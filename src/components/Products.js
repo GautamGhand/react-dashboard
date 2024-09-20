@@ -6,9 +6,11 @@ export default function Products() {
   useEffect(() => {
     setProducts([
       {
+        id:1,
         name: "dfdfdfdf",
       },
       {
+        id:2,
         name: "fdfddfd",
       },
     ]);
@@ -17,7 +19,7 @@ export default function Products() {
   return (
     <>
       {products.length > 0
-        ? products.map((product) => <div>{product.name}</div>)
+        ? products.map((product) => <div key={product.id}>{product.name}</div>)
         : "No Product Found"}
     </>
   );

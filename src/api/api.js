@@ -33,3 +33,8 @@ export async function userCreate(formData) {
   const response = await api.post(`${base_url}/api/users/create`, formData);
   return response;
 }
+
+export async function userProfile() {
+  const response = await api.get(`${base_url}/api/profile`);
+  return response;
+}
