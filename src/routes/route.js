@@ -48,7 +48,7 @@ const routes = createBrowserRouter([
         ),
       },
       {
-        path: "/users/edit/:id",
+        path: "/users/edit/:uuid",
         element: (
           <PrivateRoute>
             <UserEdit />
