@@ -8,26 +8,21 @@ function Home() {
   const { setUser, token, user } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const fetchData = async () => {
+  useEffect(() => {
     if (decodeToken(token) === null) {
       localStorage.removeItem("authToken");
       navigate("/");
       return;
     }
 
-    try {
+    const getProfile = async () => {
       const response = await userProfile();
+      console.log(response);
       if (response.data.success) {
-        setUser(response.data.user); // Use response.data.user
+        setUser(response.data.user);
       }
-    } catch (error) {
-      console.error("Failed to fetch user profile:", error);
-      navigate("/");
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
+    };
+    getProfile();
   }, [token, setUser, navigate]);
 
   return (

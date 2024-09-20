@@ -20,24 +20,24 @@ function UserEdit() {
   const { uuid } = useParams();
   const token = localStorage.getItem("authToken");
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(`${base_url}/api/users/edit/${uuid}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-      setValue("name", response.data.user.name);
-      setValue("email", response.data.user.email);
-    } catch (error) {
-      console.error("Failed to fetch user data:", error);
-    }
-  };
-
+  
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${base_url}/api/users/edit/${uuid}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+        setValue("name", response.data.user.name);
+        setValue("email", response.data.user.email);
+      } catch (error) {
+        console.error("Failed to fetch user data:", error);
+      }
+    };
     fetchData();
-  }, []);
+  }, [base_url,token,setValue,uuid]);
 
   const onSubmit = async (data) => {
     const formData = {

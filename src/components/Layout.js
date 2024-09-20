@@ -15,14 +15,15 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { decodeToken } from "react-jwt";
 import { AuthContext } from "../context/context";
 
-function Layout() {
+
+function Layout(){
   const drawerWidth = 220;
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
   const navigate = useNavigate();
   const { token } = useContext(AuthContext);
 
   useEffect(() => {
-    if (decodeToken(token) === null) {
+    if (!token && decodeToken(token) === null) {
       localStorage.removeItem("authToken");
       navigate("/");
     }
@@ -101,6 +102,6 @@ function Layout() {
       </Box>
     </Box>
   );
-}
+};
 
 export default Layout;
